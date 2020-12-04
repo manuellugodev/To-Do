@@ -1,6 +1,7 @@
 package com.manuellugodev.to_do.ui.tasks
 
 import android.util.Log
+import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.manuellugodev.to_do.data.repositories.TasksRepository
 import com.manuellugodev.to_do.domain.DataResult
@@ -9,7 +10,7 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 
-class MainViewModel (private val repository: TasksRepository) : ViewModel() {
+class MainViewModel @ViewModelInject constructor (private val repository: TasksRepository) : ViewModel() {
 
     private val _deleteTaskStatus = MutableLiveData<DataResult<Boolean>>()
     val deleteTaskStatus: LiveData<DataResult<Boolean>> get() = _deleteTaskStatus

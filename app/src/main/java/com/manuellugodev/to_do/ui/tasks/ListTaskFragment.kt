@@ -11,15 +11,10 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.room.Room
 import com.manuellugodev.to_do.R
-import com.manuellugodev.to_do.data.main.TaskRepositoryLocal
-import com.manuellugodev.to_do.data.repositories.TasksRepository
-import com.manuellugodev.to_do.data.sources.LocalTaskDataSource
 import com.manuellugodev.to_do.domain.DataResult
-import com.manuellugodev.to_do.room.TaskDatabase
-import com.manuellugodev.to_do.sources.TaskRoomDataSource
 import com.manuellugodev.to_do.ui.adapters.AdapterListTasks
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_task.*
 
 // TODO: Rename parameter arguments, choose names that match
@@ -32,6 +27,7 @@ private const val ARG_PARAM2 = "param2"
  * Use the [ListTaskFragment.newInstance] factory method to
  * create an instance of this fragment.
  */
+@AndroidEntryPoint
 class ListTaskFragment : Fragment(){
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -39,10 +35,8 @@ class ListTaskFragment : Fragment(){
 
 
 
-    private lateinit var db:TaskDatabase
-    private lateinit var  source:LocalTaskDataSource
-    private lateinit var repository:TasksRepository
-    private val viewModel:MainViewModel by activityViewModels<MainViewModel> { MainViewModelProvider(repository) }
+
+    private val viewModel:MainViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -57,10 +51,6 @@ class ListTaskFragment : Fragment(){
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        db=TaskDatabase.getDatabase(requireContext())
-        source= TaskRoomDataSource(db)
-        repository=TaskRepositoryLocal(source)
 
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_list_task, container, false)

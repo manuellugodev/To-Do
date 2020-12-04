@@ -18,15 +18,14 @@ import com.manuellugodev.to_do.room.TaskDatabase
 import com.manuellugodev.to_do.sources.TaskRoomDataSource
 import com.manuellugodev.to_do.ui.tasks.MainViewModel
 import com.manuellugodev.to_do.ui.tasks.MainViewModelProvider
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.new_task_fragment.*
 
-
+@AndroidEntryPoint
 class NewTaskFragment : Fragment() {
 
-    private lateinit var db: TaskDatabase
-    private lateinit var  source: LocalTaskDataSource
-    private lateinit var repository: TasksRepository
-    private val viewModel: MainViewModel by activityViewModels<MainViewModel> { MainViewModelProvider(repository) }
+
+    private val viewModel: MainViewModel by activityViewModels<MainViewModel>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
@@ -36,11 +35,6 @@ class NewTaskFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        db= TaskDatabase.getDatabase(requireContext())
-        source=TaskRoomDataSource(db)
-        repository=TaskRepositoryLocal(source)
-
 
         bSave.setOnClickListener{
             val task=Task(title =
