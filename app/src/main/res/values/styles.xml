@@ -8,4 +8,23 @@
     </style>
 
 
+    <style name="textTitle">
+        <item name="android:textColor">@color/black_text</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textSize">@dimen/text_tiles</item>
+    </style>
+
+    <style name="textDesc">
+        <item name="android:textColor">@color/black_text</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/text_subtitles</item>
+    </style>
+
+    <style name="buttonStyle">
+        <item name="android:background">@drawable/button_design</item>
+        <item name="android:textColor">#FFFFFF</item>
+
+    </style>
+
+    <color name="black_text">#000000</color>
 </resources>
