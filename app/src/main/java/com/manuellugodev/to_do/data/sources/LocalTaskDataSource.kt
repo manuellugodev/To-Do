@@ -11,5 +11,7 @@ interface LocalTaskDataSource {
 
     suspend fun deleteTask(deleteTask: Task)
 
+    suspend fun updateTask(updateTask: Task)
+
 
 }

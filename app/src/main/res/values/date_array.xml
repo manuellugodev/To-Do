@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="date_format_array">
+        <item>@string/Today</item>
+        <item>@string/Week</item>
+    </string-array>
+</resources>

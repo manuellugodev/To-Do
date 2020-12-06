@@ -18,8 +18,11 @@ import com.manuellugodev.to_do.room.TaskDatabase
 import com.manuellugodev.to_do.sources.TaskRoomDataSource
 import com.manuellugodev.to_do.ui.tasks.MainViewModel
 import com.manuellugodev.to_do.ui.tasks.MainViewModelProvider
+import com.manuellugodev.to_do.utils.DateInputMask
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.new_task_fragment.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 @AndroidEntryPoint
 class NewTaskFragment : Fragment() {
@@ -42,6 +45,13 @@ class NewTaskFragment : Fragment() {
             viewModel.insertTask(task)
             Toast.makeText(requireContext(),"Guardado",Toast.LENGTH_SHORT).show()
         }
+
+        val dateCurrent= SimpleDateFormat("dd/MM/yyyy",Locale.getDefault()).format(Date())
+
+        dateNewTask.setText(dateCurrent.toString())
+
+        Toast.makeText(requireContext(), dateCurrent.toString(), Toast.LENGTH_SHORT).show()
+        DateInputMask(dateNewTask).listen()
 
     }
 }

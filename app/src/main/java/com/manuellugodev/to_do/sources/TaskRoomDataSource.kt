@@ -13,6 +13,12 @@ class TaskRoomDataSource(db: TaskDatabase) : LocalTaskDataSource {
 
     private val taskDao = db.taskDao()
 
+    override suspend fun updateTask(updateTask: Task) {
+        withContext(Dispatchers.IO){
+            taskDao.updateTask(updateTask)
+        }
+    }
+
     override suspend fun getListTasks(): DataResult<List<Task>> = withContext(Dispatchers.IO) {
 
         safeApiCall(

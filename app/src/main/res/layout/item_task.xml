@@ -16,25 +16,38 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/titleTask"
-                style="@style/textTitle"
+            <CheckBox
+                android:id="@+id/checkTaskRealized"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center" />
+
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="Feature New Task in app" />
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:padding="5dp">
 
-            <TextView
-                android:id="@+id/descTask"
-                style="@style/textDesc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:lines="1"
-                tools:text="Start with implementation of feature new task in app Android" />
+                <TextView
+                    android:id="@+id/titleTask"
+                    style="@style/textTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="Feature New Task in app" />
+
+                <TextView
+                    android:id="@+id/descTask"
+                    style="@style/textDesc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:lines="1"
+                    tools:text="Start with implementation of feature new task in app Android" />
+            </LinearLayout>
         </LinearLayout>
 
 

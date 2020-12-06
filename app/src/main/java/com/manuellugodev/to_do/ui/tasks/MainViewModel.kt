@@ -10,13 +10,37 @@ import kotlinx.coroutines.launch
 import java.lang.Exception
 
 
-class MainViewModel @ViewModelInject constructor (private val repository: TasksRepository) : ViewModel() {
+class MainViewModel @ViewModelInject constructor(private val repository: TasksRepository) :
+    ViewModel() {
 
     private val _deleteTaskStatus = MutableLiveData<DataResult<Boolean>>()
     val deleteTaskStatus: LiveData<DataResult<Boolean>> get() = _deleteTaskStatus
 
     private val _insertTaskStatus = MutableLiveData<DataResult<Boolean>>()
     val insertTaskStatus: LiveData<DataResult<Boolean>> get() = _insertTaskStatus
+
+    private val _updateTaskStatus = MutableLiveData<DataResult<Boolean>>()
+    val updateTaskStatus:LiveData<DataResult<Boolean>> get()=_updateTaskStatus
+
+    fun updateTask(task: Task){
+
+        viewModelScope.launch {
+
+            _updateTaskStatus.value= DataResult.Loading()
+
+            try {
+                val result= repository.updateTask(task)
+
+                _updateTaskStatus.value=DataResult.Success(true)
+
+            }catch (e:Exception){
+                e.printStackTrace()
+                _updateTaskStatus.value = DataResult.Failure(e)
+
+            }
+        }
+
+    }
 
     fun deleteTask(task: Task) {
 
@@ -27,7 +51,7 @@ class MainViewModel @ViewModelInject constructor (private val repository: TasksR
             try {
                 val result = repository.deleteTask(task)
 
-                _deleteTaskStatus.value =DataResult.Success(true)
+                _deleteTaskStatus.value = DataResult.Success(true)
 
             } catch (e: Exception) {
 
@@ -78,7 +102,7 @@ class MainViewModel @ViewModelInject constructor (private val repository: TasksR
 
 }
 
-class MainViewModelProvider(private val repository: TasksRepository):ViewModelProvider.Factory{
+class MainViewModelProvider(private val repository: TasksRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return modelClass.getConstructor(TasksRepository::class.java).newInstance(repository)
     }

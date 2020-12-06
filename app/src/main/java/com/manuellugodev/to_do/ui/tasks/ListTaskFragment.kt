@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -13,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.manuellugodev.to_do.R
 import com.manuellugodev.to_do.domain.DataResult
+import com.manuellugodev.to_do.room.Task
 import com.manuellugodev.to_do.ui.adapters.AdapterListTasks
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_task.*
@@ -28,15 +30,13 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-class ListTaskFragment : Fragment(){
+class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
 
-
-
-    private val viewModel:MainViewModel by activityViewModels()
+    private val viewModel: MainViewModel by activityViewModels()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,38 +56,82 @@ class ListTaskFragment : Fragment(){
         return inflater.inflate(R.layout.fragment_list_task, container, false)
 
 
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvListTasks.layoutManager=
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL,false)
+        rvListTasks.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
         bAddTaskFragment.setOnClickListener { findNavController().navigate(R.id.action_listTaskFragment_to_newTaskFragment) }
 
-        viewModel.fetchListTask().observe(viewLifecycleOwner, Observer {
-            when(it){
+        setupObservers()
 
-                is DataResult.Loading ->{
-                    Toast.makeText(requireContext(),"Loading",Toast.LENGTH_SHORT).show()
+        setupAdapterSpinner()
+
+
+    }
+
+    private fun setupAdapterSpinner() {
+
+         ArrayAdapter.createFromResource(
+            requireContext(),
+            R.array.date_format_array,
+            android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+
+             spinnerDate.adapter=adapter
+         }
+
+    }
+
+    private fun setupObservers() {
+        viewModel.fetchListTask().observe(viewLifecycleOwner, Observer {
+            when (it) {
+
+                is DataResult.Loading -> {
+                    Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
                 }
                 is DataResult.Success -> {
 
-                    rvListTasks.adapter=AdapterListTasks(it.data)
+                    rvListTasks.adapter = AdapterListTasks(it.data, this)
                 }
 
-                is DataResult.Failure ->{
-                    Log.e("Error",it.exception.message.toString())
+                is DataResult.Failure -> {
+                    Log.e("Error", it.exception.message.toString())
                 }
             }
         })
 
 
 
+        viewModel.updateTaskStatus.observe(viewLifecycleOwner, Observer {
 
+            when (it) {
 
+                is DataResult.Loading -> {
+                    Toast.makeText(requireContext(), "Actualizando....", Toast.LENGTH_SHORT).show()
+                }
+                is DataResult.Success -> {
+                    Toast.makeText(requireContext(), "Actualizado con exito", Toast.LENGTH_LONG)
+                        .show()
+                }
+                is DataResult.Failure -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Ocurrio un error Actualizando..",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            }
+        })
+
+    }
+
+    override fun onUpdateTaskChecked(task: Task) {
+        viewModel.updateTask(task)
     }
 
     companion object {

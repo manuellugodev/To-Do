@@ -15,4 +15,8 @@ class TaskRepositoryLocal(private val localTaskDataSource: LocalTaskDataSource) 
 
     override suspend fun insertTask(newTask: Task) =
         localTaskDataSource.insertTask(newTask)
+
+    override suspend fun updateTask(updateTask: Task) {
+        localTaskDataSource.updateTask(updateTask)
+    }
 }
