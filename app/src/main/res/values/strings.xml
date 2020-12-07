@@ -11,4 +11,5 @@
     <string name="titleAlertDelete">Delete?</string>
     <string name="possiButtonAlertDelete">Yes</string>
     <string name="negaButtonAlertDelete">No</string>
+    <string name="hintNameCategory">Name Category</string>
 </resources>

@@ -4,6 +4,7 @@ import com.manuellugodev.to_do.data.repositories.TasksRepository
 import com.manuellugodev.to_do.data.sources.LocalTaskDataSource
 import com.manuellugodev.to_do.room.Task
 import com.manuellugodev.to_do.domain.DataResult
+import com.manuellugodev.to_do.room.Category
 
 class TaskRepositoryLocal(private val localTaskDataSource: LocalTaskDataSource) : TasksRepository {
 
@@ -18,5 +19,12 @@ class TaskRepositoryLocal(private val localTaskDataSource: LocalTaskDataSource) 
 
     override suspend fun updateTask(updateTask: Task) {
         localTaskDataSource.updateTask(updateTask)
+    }
+
+    override suspend fun getListCategories(): DataResult<List<Category>> =
+        localTaskDataSource.getListCategories()
+
+    override suspend fun insertCategory(newCategory: Category) {
+        localTaskDataSource.insertCategory(newCategory)
     }
 }

@@ -5,6 +5,7 @@ import com.manuellugodev.to_do.room.Task
 import com.manuellugodev.to_do.room.TaskDatabase
 import com.manuellugodev.to_do.domain.DataResult
 import com.manuellugodev.to_do.domain.safeApiCall
+import com.manuellugodev.to_do.room.Category
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.IOException
@@ -28,6 +29,19 @@ class TaskRoomDataSource(db: TaskDatabase) : LocalTaskDataSource {
         )
     }
 
+    override suspend fun getListCategories(): DataResult<List<Category>> = withContext(Dispatchers.IO){
+        safeApiCall(
+            call =
+            { requestCategoriesList()},
+            errorMessage = "Error"
+        )
+    }
+
+    override suspend fun insertCategory(newCategory: Category) {
+        withContext(Dispatchers.IO){
+            taskDao.insertCategory(newCategory)
+        }
+    }
 
     override suspend fun insertTask(newTask: Task) {
         withContext(Dispatchers.IO){
@@ -42,6 +56,18 @@ class TaskRoomDataSource(db: TaskDatabase) : LocalTaskDataSource {
     }
 
 
+
+
+    private suspend fun requestCategoriesList():DataResult<List<Category>> {
+
+        val results= taskDao.getListCategories()
+
+        if(!results.isNullOrEmpty()){
+            return DataResult.Success(results)
+        }else{
+            return DataResult.Failure(IOException("Error Obteniendo Lista Categorias"))
+        }
+    }
     private suspend fun requestTasksList(): DataResult<List<Task>> {
 
         val results = taskDao.getListTasks()

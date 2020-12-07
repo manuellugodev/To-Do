@@ -5,6 +5,7 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.manuellugodev.to_do.data.repositories.TasksRepository
 import com.manuellugodev.to_do.domain.DataResult
+import com.manuellugodev.to_do.room.Category
 import com.manuellugodev.to_do.room.Task
 import kotlinx.coroutines.launch
 import java.io.IOException
@@ -14,7 +15,12 @@ import java.lang.Exception
 class MainViewModel @ViewModelInject constructor(private val repository: TasksRepository) :
     ViewModel() {
 
-    private val listTaskStatus = MutableLiveData<Boolean>()
+    private val listTaskStatus = MutableLiveData<DataResult<Boolean>>()
+
+    private val listCategoryStatus = MutableLiveData<DataResult<Boolean>>()
+
+    private val _insertCategoryStatus = MutableLiveData<DataResult<Boolean>>()
+    val insertCateforyStatus: LiveData<DataResult<Boolean>> get() = _insertCategoryStatus
 
     private val _deleteTaskStatus = MutableLiveData<DataResult<Boolean>>()
     val deleteTaskStatus: LiveData<DataResult<Boolean>> get() = _deleteTaskStatus
@@ -26,11 +32,16 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
     val updateTaskStatus: LiveData<DataResult<Boolean>> get() = _updateTaskStatus
 
     init {
-        listTaskStatus.value = true
+        listTaskStatus.value = DataResult.Loading()
+        listCategoryStatus.value = DataResult.Loading()
     }
 
     fun refreshListTask() {
-        listTaskStatus.value = true
+        listTaskStatus.value = DataResult.Loading()
+    }
+
+    fun refreshListCategory() {
+        listCategoryStatus.value = DataResult.Loading()
     }
 
     fun updateTask(task: Task) {
@@ -95,6 +106,27 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
 
     }
 
+    fun insertCategory(category: Category){
+
+        viewModelScope.launch {
+
+            _insertCategoryStatus.value =DataResult.Loading()
+
+            try {
+
+                val result= repository.insertCategory(category)
+
+                _insertCategoryStatus.value=DataResult.Success(true)
+
+                listCategoryStatus.value=DataResult.Loading()
+
+            }catch (e:Exception){
+
+                _insertCategoryStatus.value=DataResult.Failure(e)
+            }
+        }
+    }
+
     fun fetchListTask() = listTaskStatus.switchMap {
         liveData {
             emit(DataResult.Loading())
@@ -115,6 +147,22 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
             }
         }
     }
+
+    fun fetchListCategory() = listCategoryStatus.switchMap {
+        liveData {
+            emit(DataResult.Loading())
+
+            try {
+                val result = repository.getListCategories()
+
+                emit(result)
+            } catch (e: Exception) {
+
+                Log.e("Error Category", e.message.toString())
+            }
+        }
+    }
+
 
 }
 

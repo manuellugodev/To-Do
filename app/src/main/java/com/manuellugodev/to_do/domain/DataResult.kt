@@ -1,5 +1,6 @@
 package com.manuellugodev.to_do.domain
 
+import android.util.Log
 import java.io.IOException
 import java.lang.Exception
 
@@ -15,6 +16,8 @@ sealed class DataResult<out T>{
 suspend fun <T : Any> safeApiCall(call: suspend () -> DataResult<T>, errorMessage: String): DataResult<T> = try {
     call.invoke()
 } catch (e: Exception) {
+    Log.e("Error safeApiCall",e.message.toString())
     DataResult.Failure(IOException(errorMessage, e))
+
 }
 

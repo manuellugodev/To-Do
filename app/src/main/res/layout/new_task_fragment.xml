@@ -24,21 +24,21 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical"
             android:padding="5dp">
 
             <EditText
                 android:id="@+id/titleNewTask"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:hint="Inserte Titulo de la Tarea"
                 tools:text="Comida" />
 
             <EditText
                 android:id="@+id/descNewTask"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:hint="Describa la Tarea.............."
                 tools:text="Comprar comidad en el centro comerciasl en especifico,1 kg de pollo ,1kg de carne, y 2 refrescos" />
 
@@ -50,11 +50,61 @@
                 android:hint="Fecha"
                 android:inputType="date" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <Spinner
+                    android:id="@+id/spiCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+                <ImageButton
+                    android:id="@+id/bAddCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:background="#FFFFFF"
+                    android:src="@android:drawable/ic_menu_add" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layoutAddCategory"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <EditText
+                    android:id="@+id/editAddCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/hintNameCategory"
+                    android:inputType="textPersonName"
+                    android:visibility="visible" />
+
+                <ImageButton
+                    android:id="@+id/bAcceptCategory"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="7"
+                    android:background="@color/colorCheck"
+                    android:src="?android:attr/textCheckMark" />
+
+            </LinearLayout>
+
             <Button
                 android:id="@+id/bSave"
                 style="@style/buttonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:text="Guardar" />
 
         </LinearLayout>
