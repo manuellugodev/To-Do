@@ -49,10 +49,11 @@ class NewTaskFragment : Fragment() {
 
 
         bSave.setOnClickListener{
+            val categoryTask:String=spiCategory.selectedItem.toString()
             val task=Task(title =
-            titleNewTask.text.toString(),body = descNewTask.text.toString())
+            titleNewTask.text.toString(),body = descNewTask.text.toString(),categoryTask = categoryTask)
             viewModel.insertTask(task)
-            Toast.makeText(requireContext(),"Guardado",Toast.LENGTH_SHORT).show()
+
         }
 
         bAddCategory.setOnClickListener {
