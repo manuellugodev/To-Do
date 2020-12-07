@@ -9,8 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manuellugodev.to_do.R
 import com.manuellugodev.to_do.room.Task
 
-class AdapterListTasks(private val tasks: List<Task>,private val listener:ListenerTask):RecyclerView.Adapter<AdapterListTasks.ViewHolder>() {
+class AdapterListTasks(private var tasks: List<Task>,private val listener:ListenerTask):RecyclerView.Adapter<AdapterListTasks.ViewHolder>() {
 
+    fun updateDataAdapter(listTask:List<Task>){
+        tasks=listTask
+        notifyDataSetChanged()
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterListTasks.ViewHolder {
 
         val view=LayoutInflater.from(parent.context).inflate(R.layout.item_task,parent,false)
@@ -34,6 +38,14 @@ class AdapterListTasks(private val tasks: List<Task>,private val listener:Listen
 
             listener.onUpdateTaskChecked(taskUpdate)
         }
+
+        holder.itemView.setOnLongClickListener {
+
+            listener.onDeleteTask(tasks[position])
+
+            
+            true
+        }
     }
 
     override fun getItemCount(): Int = tasks.size
@@ -51,5 +63,6 @@ class AdapterListTasks(private val tasks: List<Task>,private val listener:Listen
 
     interface ListenerTask{
         fun onUpdateTaskChecked(task: Task)
+        fun onDeleteTask(task: Task)
     }
 }

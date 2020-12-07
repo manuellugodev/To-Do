@@ -7,11 +7,14 @@ import com.manuellugodev.to_do.data.repositories.TasksRepository
 import com.manuellugodev.to_do.domain.DataResult
 import com.manuellugodev.to_do.room.Task
 import kotlinx.coroutines.launch
+import java.io.IOException
 import java.lang.Exception
 
 
 class MainViewModel @ViewModelInject constructor(private val repository: TasksRepository) :
     ViewModel() {
+
+    private val listTaskStatus = MutableLiveData<Boolean>()
 
     private val _deleteTaskStatus = MutableLiveData<DataResult<Boolean>>()
     val deleteTaskStatus: LiveData<DataResult<Boolean>> get() = _deleteTaskStatus
@@ -20,20 +23,29 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
     val insertTaskStatus: LiveData<DataResult<Boolean>> get() = _insertTaskStatus
 
     private val _updateTaskStatus = MutableLiveData<DataResult<Boolean>>()
-    val updateTaskStatus:LiveData<DataResult<Boolean>> get()=_updateTaskStatus
+    val updateTaskStatus: LiveData<DataResult<Boolean>> get() = _updateTaskStatus
 
-    fun updateTask(task: Task){
+    init {
+        listTaskStatus.value = true
+    }
+
+    fun refreshListTask() {
+        listTaskStatus.value = true
+    }
+
+    fun updateTask(task: Task) {
 
         viewModelScope.launch {
 
-            _updateTaskStatus.value= DataResult.Loading()
+            _updateTaskStatus.value = DataResult.Loading()
 
             try {
-                val result= repository.updateTask(task)
+                val result = repository.updateTask(task)
 
-                _updateTaskStatus.value=DataResult.Success(true)
 
-            }catch (e:Exception){
+                _updateTaskStatus.value = DataResult.Success(true)
+
+            } catch (e: Exception) {
                 e.printStackTrace()
                 _updateTaskStatus.value = DataResult.Failure(e)
 
@@ -83,22 +95,26 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
 
     }
 
-    fun fetchListTask() = liveData {
-        emit(DataResult.Loading())
+    fun fetchListTask() = listTaskStatus.switchMap {
+        liveData {
+            emit(DataResult.Loading())
 
-        try {
+            try {
 
-            val result = repository.getListTasks()
-            emit(result)
+                val result = repository.getListTasks()
 
-        } catch (e: Exception) {
 
-            emit(DataResult.Failure(e))
-            Log.e("Error", e.message.toString())
+                emit(result)
 
+
+            } catch (e: Exception) {
+
+                emit(DataResult.Failure(e))
+                Log.e("Error", e.message.toString())
+
+            }
         }
     }
-
 
 }
 

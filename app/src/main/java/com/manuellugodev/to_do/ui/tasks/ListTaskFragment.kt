@@ -1,5 +1,7 @@
 package com.manuellugodev.to_do.ui.tasks
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -35,6 +37,8 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask {
     private var param1: String? = null
     private var param2: String? = null
 
+    private val adapterRv=AdapterListTasks(listOf(),this)
+
 
     private val viewModel: MainViewModel by activityViewModels()
 
@@ -63,6 +67,8 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask {
 
         rvListTasks.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+
+        rvListTasks.adapter=adapterRv
 
         bAddTaskFragment.setOnClickListener { findNavController().navigate(R.id.action_listTaskFragment_to_newTaskFragment) }
 
@@ -96,10 +102,11 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask {
                 }
                 is DataResult.Success -> {
 
-                    rvListTasks.adapter = AdapterListTasks(it.data, this)
+                    adapterRv.updateDataAdapter(it.data)
                 }
 
                 is DataResult.Failure -> {
+                    adapterRv.updateDataAdapter(listOf())
                     Log.e("Error", it.exception.message.toString())
                 }
             }
@@ -132,6 +139,29 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask {
 
     override fun onUpdateTaskChecked(task: Task) {
         viewModel.updateTask(task)
+    }
+
+    override fun onDeleteTask(task: Task) {
+
+        val listener:DialogInterface.OnClickListener=DialogInterface.OnClickListener{ dialog ,whinch->
+            viewModel.deleteTask(task)
+            viewModel.refreshListTask()
+        }
+
+        showAlertDialogDelete(listener)
+    }
+
+    private fun showAlertDialogDelete(listener: DialogInterface.OnClickListener){
+
+        val alertDialog=AlertDialog.Builder(requireContext())
+
+        alertDialog.setTitle(getString(R.string.titleAlertDelete))
+
+        alertDialog.setPositiveButton(getString(R.string.possiButtonAlertDelete),listener)
+
+        alertDialog.setNegativeButton(getString(R.string.negaButtonAlertDelete),null)
+
+        alertDialog.show()
     }
 
     companion object {

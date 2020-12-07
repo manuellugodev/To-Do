@@ -36,7 +36,9 @@ class TaskRoomDataSource(db: TaskDatabase) : LocalTaskDataSource {
     }
 
     override suspend fun deleteTask(deleteTask: Task) {
-        taskDao.deleteTask(deleteTask)
+        withContext(Dispatchers.IO) {
+            taskDao.deleteTask(deleteTask)
+        }
     }
 
 
