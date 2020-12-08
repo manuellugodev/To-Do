@@ -15,7 +15,7 @@ import java.lang.Exception
 class MainViewModel @ViewModelInject constructor(private val repository: TasksRepository) :
     ViewModel() {
 
-    private val listTaskStatus = MutableLiveData<DataResult<Boolean>>()
+    private val listTaskStatus = MutableLiveData<String>()
 
     private val listCategoryStatus = MutableLiveData<DataResult<Boolean>>()
 
@@ -32,12 +32,13 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
     val updateTaskStatus: LiveData<DataResult<Boolean>> get() = _updateTaskStatus
 
     init {
-        listTaskStatus.value = DataResult.Loading()
+        insertCategory(Category(cateId = 1,nameCategory = "ALL"))
+        listTaskStatus.value = "ALL"
         listCategoryStatus.value = DataResult.Loading()
     }
 
-    fun refreshListTask() {
-        listTaskStatus.value = DataResult.Loading()
+    fun refreshListTask(category: String) {
+        listTaskStatus.value = category
     }
 
     fun refreshListCategory() {
@@ -127,13 +128,13 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
         }
     }
 
-    fun fetchListTask() = listTaskStatus.switchMap {
+    fun fetchListTask() = listTaskStatus.switchMap {category ->
         liveData {
             emit(DataResult.Loading())
 
             try {
 
-                val result = repository.getListTasks()
+                val result = repository.getListTasks(category)
 
 
                 emit(result)

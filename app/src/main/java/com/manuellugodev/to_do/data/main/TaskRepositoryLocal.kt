@@ -8,8 +8,8 @@ import com.manuellugodev.to_do.room.Category
 
 class TaskRepositoryLocal(private val localTaskDataSource: LocalTaskDataSource) : TasksRepository {
 
-    override suspend fun getListTasks(): DataResult<List<Task>> =
-            localTaskDataSource.getListTasks()
+    override suspend fun getListTasks(category:String): DataResult<List<Task>> =
+            localTaskDataSource.getListTasks(category)
 
     override suspend fun deleteTask(deleteTask: Task) =
             localTaskDataSource.deleteTask(deleteTask)

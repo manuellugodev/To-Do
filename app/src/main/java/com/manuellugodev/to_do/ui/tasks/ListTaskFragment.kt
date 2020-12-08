@@ -16,6 +16,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.manuellugodev.to_do.R
 import com.manuellugodev.to_do.domain.DataResult
+import com.manuellugodev.to_do.room.Category
 import com.manuellugodev.to_do.room.Task
 import com.manuellugodev.to_do.ui.adapters.AdapterListCategory
 import com.manuellugodev.to_do.ui.adapters.AdapterListTasks
@@ -33,13 +34,13 @@ private const val ARG_PARAM2 = "param2"
  * create an instance of this fragment.
  */
 @AndroidEntryPoint
-class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask {
+class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListCategory.ListenerCategory{
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
 
     private val adapterRv=AdapterListTasks(listOf(),this)
-    private val adapterRvCategory=AdapterListCategory(listOf())
+    private val adapterRvCategory=AdapterListCategory(listOf(),this)
 
 
     private val viewModel: MainViewModel by activityViewModels()
@@ -163,10 +164,14 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask {
 
         val listener:DialogInterface.OnClickListener=DialogInterface.OnClickListener{ dialog ,whinch->
             viewModel.deleteTask(task)
-            viewModel.refreshListTask()
+            viewModel.refreshListTask("ALL")
         }
 
         showAlertDialogDelete(listener)
+    }
+
+    override fun onClickCategory(selecCategory: Category) {
+        viewModel.refreshListTask(selecCategory.nameCategory)
     }
 
     private fun showAlertDialogDelete(listener: DialogInterface.OnClickListener){

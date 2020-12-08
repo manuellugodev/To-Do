@@ -6,7 +6,7 @@ import com.manuellugodev.to_do.room.Category
 
 interface TasksRepository {
 
-    suspend fun getListTasks(): DataResult<List<Task>>
+    suspend fun getListTasks(category:String): DataResult<List<Task>>
 
     suspend fun getListCategories(): DataResult<List<Category>>
 

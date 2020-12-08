@@ -6,7 +6,7 @@ import com.manuellugodev.to_do.room.Category
 
 interface LocalTaskDataSource {
 
-    suspend fun getListTasks(): DataResult<List<Task>>
+    suspend fun getListTasks(Category:String): DataResult<List<Task>>
 
     suspend fun insertTask(newTask: Task)
 

@@ -20,11 +20,11 @@ class TaskRoomDataSource(db: TaskDatabase) : LocalTaskDataSource {
         }
     }
 
-    override suspend fun getListTasks(): DataResult<List<Task>> = withContext(Dispatchers.IO) {
+    override suspend fun getListTasks(category:String): DataResult<List<Task>> = withContext(Dispatchers.IO) {
 
         safeApiCall(
             call =
-            { requestTasksList() },
+            { requestTasksList(category) },
             errorMessage = "Error"
         )
     }
@@ -68,9 +68,9 @@ class TaskRoomDataSource(db: TaskDatabase) : LocalTaskDataSource {
             return DataResult.Failure(IOException("Error Obteniendo Lista Categorias"))
         }
     }
-    private suspend fun requestTasksList(): DataResult<List<Task>> {
+    private suspend fun requestTasksList(category: String): DataResult<List<Task>> {
 
-        val results = taskDao.getListTasks()
+        val results = taskDao.getListTasks(category)
 
         if (!results.isEmpty()) {
             return DataResult.Success(results)

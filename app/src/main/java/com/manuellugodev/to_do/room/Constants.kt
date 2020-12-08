@@ -7,7 +7,7 @@ object Constants {
     const val NAME_CATEGORY_TABLE="Categories"
 
     const val NAME_DATABASE="DB_Tasks"
-    const val GET_ALL_TASK="SELECT * FROM $NAME_TASK_TABLE"
+    const val GET_LIST_TASKS_BY_CATEGORY="SELECT * FROM $NAME_TASK_TABLE WHERE category LIKE :category"
     const val GET_ALL_CATEGORIES="SELECT * FROM $NAME_CATEGORY_TABLE"
 
 }

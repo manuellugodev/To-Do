@@ -7,9 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.manuellugodev.to_do.R
 import com.manuellugodev.to_do.room.Category
-import com.manuellugodev.to_do.room.Task
 
-class AdapterListCategory(private var listCategory: List<Category>): RecyclerView.Adapter<AdapterListCategory.ViewHolderCategory>() {
+class AdapterListCategory(private var listCategory: List<Category>,private val listener:ListenerCategory): RecyclerView.Adapter<AdapterListCategory.ViewHolderCategory>() {
 
     fun updateDataAdapter(list: List<Category>){
         listCategory=list
@@ -25,6 +24,7 @@ class AdapterListCategory(private var listCategory: List<Category>): RecyclerVie
     override fun onBindViewHolder(holderCategory: ViewHolderCategory, position: Int) {
 
         holderCategory.txtTitleCategory.text=listCategory[position].nameCategory
+        holderCategory.itemView.setOnClickListener { listener.onClickCategory(listCategory[position]) }
     }
 
     override fun getItemCount(): Int = listCategory.size
@@ -40,5 +40,8 @@ class AdapterListCategory(private var listCategory: List<Category>): RecyclerVie
 
     }
 
+    interface ListenerCategory{
+        fun onClickCategory(selecCategory:Category)
+    }
 
 }
