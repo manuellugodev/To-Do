@@ -26,6 +26,7 @@ class AdapterListTasks(private var tasks: List<Task>,private val listener:Listen
 
         holder.txtTitle.text=tasks[position].title
         holder.txtDescription.text=tasks[position].body
+        holder.txtDate.text=tasks[position].date
 
         holder.checkTask.isChecked = tasks[position].realized
 
@@ -53,10 +54,12 @@ class AdapterListTasks(private var tasks: List<Task>,private val listener:Listen
     class ViewHolder(view: View):RecyclerView.ViewHolder(view){
         val txtTitle:TextView
         val txtDescription:TextView
+        val txtDate:TextView
         val checkTask:CheckBox
         init {
             txtTitle=view.findViewById(R.id.titleTask)
             txtDescription=view.findViewById(R.id.descTask)
+            txtDate=view.findViewById(R.id.textDateTask)
             checkTask=view.findViewById(R.id.checkTaskRealized)
         }
     }

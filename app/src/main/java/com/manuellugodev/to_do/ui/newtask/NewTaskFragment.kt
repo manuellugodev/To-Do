@@ -50,8 +50,9 @@ class NewTaskFragment : Fragment() {
 
         bSave.setOnClickListener{
             val categoryTask:String=spiCategory.selectedItem.toString()
+            val dateTask=dateNewTask.text.toString()
             val task=Task(title =
-            titleNewTask.text.toString(),body = descNewTask.text.toString(),categoryTask = categoryTask)
+            titleNewTask.text.toString(),body = descNewTask.text.toString(),categoryTask = categoryTask,date = dateTask)
             viewModel.insertTask(task)
 
         }

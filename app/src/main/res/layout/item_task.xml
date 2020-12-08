@@ -23,7 +23,10 @@
                 android:id="@+id/checkTaskRealized"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" />
+                android:layout_gravity="center"
+                android:button="@drawable/custom_checkbox"
+                android:layout_marginLeft="5dp"
+                />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -47,6 +50,13 @@
                     android:layout_marginTop="10dp"
                     android:lines="1"
                     tools:text="Start with implementation of feature new task in app Android" />
+
+                <TextView
+                    android:id="@+id/textDateTask"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    tools:text="31/12/2020"/>
             </LinearLayout>
         </LinearLayout>
 

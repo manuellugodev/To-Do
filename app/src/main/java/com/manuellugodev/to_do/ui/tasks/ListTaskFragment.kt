@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.manuellugodev.to_do.R
 import com.manuellugodev.to_do.domain.DataResult
 import com.manuellugodev.to_do.room.Task
+import com.manuellugodev.to_do.ui.adapters.AdapterListCategory
 import com.manuellugodev.to_do.ui.adapters.AdapterListTasks
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_task.*
@@ -38,6 +39,7 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask {
     private var param2: String? = null
 
     private val adapterRv=AdapterListTasks(listOf(),this)
+    private val adapterRvCategory=AdapterListCategory(listOf())
 
 
     private val viewModel: MainViewModel by activityViewModels()
@@ -70,11 +72,16 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask {
 
         rvListTasks.adapter=adapterRv
 
+        rvCategories.layoutManager= LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        rvCategories.adapter=adapterRvCategory
+
         bAddTaskFragment.setOnClickListener { findNavController().navigate(R.id.action_listTaskFragment_to_newTaskFragment) }
 
         setupObservers()
 
         setupAdapterSpinner()
+
+
 
 
     }
@@ -135,6 +142,17 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask {
             }
         })
 
+        viewModel.fetchListCategory().observe(viewLifecycleOwner, Observer {
+            when(it){
+
+                is DataResult.Loading ->{}
+
+                is DataResult.Success -> {
+                    adapterRvCategory.updateDataAdapter(it.data)
+                }
+                is DataResult.Failure->{}
+            }
+        })
     }
 
     override fun onUpdateTaskChecked(task: Task) {

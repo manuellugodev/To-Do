@@ -2,8 +2,9 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryLight</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
@@ -27,4 +28,6 @@
     </style>
 
     <color name="black_text">#000000</color>
+
+    <color name="color_check_button">#0FD118</color>
 </resources>
