@@ -87,6 +87,7 @@
                     android:ems="10"
                     android:hint="@string/hintNameCategory"
                     android:inputType="textPersonName"
+                    android:maxLength="12"
                     android:visibility="visible" />
 
                 <ImageButton

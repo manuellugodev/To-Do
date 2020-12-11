@@ -6,5 +6,6 @@
 
     <!-- Text Dimens -->
     <dimen name="text_tiles">24sp</dimen>
+    <dimen name="text_titles_category">20sp</dimen>
     <dimen name="text_subtitles">18sp</dimen>
 </resources>

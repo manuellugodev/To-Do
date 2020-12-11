@@ -23,6 +23,7 @@ class AdapterListCategory(private var listCategory: List<Category>,private val l
 
     override fun onBindViewHolder(holderCategory: ViewHolderCategory, position: Int) {
 
+        holderCategory.txtNumTasks.text="10 Tasks"
         holderCategory.txtTitleCategory.text=listCategory[position].nameCategory
         holderCategory.itemView.setOnClickListener { listener.onClickCategory(listCategory[position]) }
     }
@@ -32,10 +33,11 @@ class AdapterListCategory(private var listCategory: List<Category>,private val l
     class ViewHolderCategory(itemView:View):RecyclerView.ViewHolder(itemView) {
 
         val txtTitleCategory:TextView
+        val txtNumTasks:TextView
         init {
 
             txtTitleCategory=itemView.findViewById(R.id.txtNameCategory)
-
+            txtNumTasks=itemView.findViewById(R.id.numTasksCategory)
         }
 
     }

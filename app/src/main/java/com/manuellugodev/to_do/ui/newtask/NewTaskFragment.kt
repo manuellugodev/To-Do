@@ -66,7 +66,10 @@ class NewTaskFragment : Fragment() {
             val textAddCategory=editAddCategory.text.toString()
             editAddCategory.setText("")
 
-            insertNewCategory(textAddCategory)
+            if(checkValidAddCategory(textAddCategory)){
+                insertNewCategory(textAddCategory)
+            }
+
         }
 
         val dateCurrent= SimpleDateFormat("dd/MM/yyyy",Locale.getDefault()).format(Date())
@@ -121,5 +124,9 @@ class NewTaskFragment : Fragment() {
 
         spiCategory.adapter=adapterSpinner
 
+    }
+
+    private fun checkValidAddCategory(textCategory:String):Boolean{
+        return !textCategory.isNullOrEmpty()
     }
 }
