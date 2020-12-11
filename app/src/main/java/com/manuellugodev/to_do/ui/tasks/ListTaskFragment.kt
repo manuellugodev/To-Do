@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
@@ -20,6 +21,7 @@ import com.manuellugodev.to_do.room.Category
 import com.manuellugodev.to_do.room.Task
 import com.manuellugodev.to_do.ui.adapters.AdapterListCategory
 import com.manuellugodev.to_do.ui.adapters.AdapterListTasks
+import com.manuellugodev.to_do.utils.FilterDate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_task.*
 
@@ -85,6 +87,8 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
 
 
 
+
+
     }
 
     private fun setupAdapterSpinner() {
@@ -98,6 +102,33 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
 
              spinnerDate.adapter=adapter
          }
+
+
+
+       spinnerDate.onItemSelectedListener=object :AdapterView.OnItemSelectedListener{
+           override fun onItemSelected(
+               parent: AdapterView<*>?,
+               view: View?,
+               position: Int,
+               id: Long
+           ) {
+              val selectDateSpinner= spinnerDate.getItemAtPosition(position).toString()
+
+
+               if(selectDateSpinner.equals(FilterDate.TODAY.name,true)){
+                   viewModel.refreshListTaskByDate(FilterDate.TODAY)
+               }else if(selectDateSpinner.equals(FilterDate.WEEK.name,true)){
+                   viewModel.refreshListTaskByDate(FilterDate.WEEK)
+               }else{
+                   viewModel.refreshListTaskByDate(FilterDate.MONTH)
+               }
+
+
+           }
+
+           override fun onNothingSelected(parent: AdapterView<*>?) {
+           }
+       }
 
     }
 
@@ -164,7 +195,7 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
 
         val listener:DialogInterface.OnClickListener=DialogInterface.OnClickListener{ dialog ,whinch->
             viewModel.deleteTask(task)
-            viewModel.refreshListTask("ALL")
+            viewModel.refreshListTask("GENERAL")
         }
 
         showAlertDialogDelete(listener)

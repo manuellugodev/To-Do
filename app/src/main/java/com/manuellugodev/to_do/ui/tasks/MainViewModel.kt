@@ -7,13 +7,18 @@ import com.manuellugodev.to_do.data.repositories.TasksRepository
 import com.manuellugodev.to_do.domain.DataResult
 import com.manuellugodev.to_do.room.Category
 import com.manuellugodev.to_do.room.Task
+import com.manuellugodev.to_do.utils.FilterDate
 import kotlinx.coroutines.launch
-import java.io.IOException
-import java.lang.Exception
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class MainViewModel @ViewModelInject constructor(private val repository: TasksRepository) :
     ViewModel() {
+
+    private val dateCurrent= SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+
+    private val _dateFilterStatus =MutableLiveData<FilterDate>()
 
     private val listTaskStatus = MutableLiveData<String>()
 
@@ -32,13 +37,19 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
     val updateTaskStatus: LiveData<DataResult<Boolean>> get() = _updateTaskStatus
 
     init {
-        insertCategory(Category(cateId = 1,nameCategory = "ALL"))
-        listTaskStatus.value = "ALL"
+        _dateFilterStatus.value=FilterDate.TODAY
+        insertCategory(Category(cateId = 1, nameCategory = "GENERAL"))
+        listTaskStatus.value = "GENERAL"
         listCategoryStatus.value = DataResult.Loading()
+
     }
 
     fun refreshListTask(category: String) {
         listTaskStatus.value = category
+    }
+    fun refreshListTaskByDate(dateMode: FilterDate){
+        _dateFilterStatus.value=dateMode
+        listTaskStatus.value=listTaskStatus.value
     }
 
     fun refreshListCategory() {
@@ -121,14 +132,14 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
 
                 listCategoryStatus.value=DataResult.Loading()
 
-            }catch (e:Exception){
+            }catch (e: Exception){
 
                 _insertCategoryStatus.value=DataResult.Failure(e)
             }
         }
     }
 
-    fun fetchListTask() = listTaskStatus.switchMap {category ->
+    fun fetchListTask() = listTaskStatus.switchMap { category ->
         liveData {
             emit(DataResult.Loading())
 
@@ -136,8 +147,9 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
 
                 val result = repository.getListTasks(category)
 
+                val resultFilter=filterListByDate(result)
 
-                emit(result)
+                emit(resultFilter)
 
 
             } catch (e: Exception) {
@@ -147,6 +159,59 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
 
             }
         }
+    }
+
+    private fun filterListByDate(result: DataResult<List<Task>>):DataResult<List<Task>> {
+
+        val resultFilter:List<Task>
+
+        val dateCurrent= SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
+
+        val dateLimitWeek= sumarRestarDiasFecha(SimpleDateFormat("dd/MM/yyyy").parse(dateCurrent),7)
+        val dateLimitMonth=sumarRestarDiasFecha(SimpleDateFormat("dd/MM/yyyy").parse(dateCurrent),30)
+
+        val dateLimite=SimpleDateFormat("dd/MM/yyyy").format(dateLimitWeek)
+
+        Log.i("Fecha" ,"Fecha Limite $dateLimite")
+        if(result is DataResult.Success){
+
+            when(_dateFilterStatus.value){
+
+                FilterDate.TODAY -> {
+
+                    resultFilter =
+                        result.data.filter { it.date.equals(dateCurrent, true) }
+
+                    return (DataResult.Success(resultFilter))
+                }
+                FilterDate.WEEK -> {
+
+                    resultFilter=
+                        result.data.filter {
+                            val dateTask=SimpleDateFormat("dd/MM/yyyy").parse(it.date)
+                            val dCurrent=SimpleDateFormat("dd/MM/yyyy").parse(dateCurrent)
+
+                            dateTask<dateLimitWeek && dateTask>=dCurrent }
+                    return (DataResult.Success(resultFilter))
+
+                }
+
+                FilterDate.MONTH -> {
+
+
+                    resultFilter=
+                        result.data.filter {
+                            val dateTask=SimpleDateFormat("dd/MM/yyyy").parse(it.date)
+                            val dCurrent=SimpleDateFormat("dd/MM/yyyy").parse(dateCurrent)
+
+                            dateTask<dateLimitMonth && dateTask>=dCurrent }
+
+                    return (DataResult.Success(resultFilter))
+                }
+
+            }
+        }
+        return result
     }
 
     fun fetchListCategory() = listCategoryStatus.switchMap {
@@ -165,6 +230,22 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
     }
 
 
+
+    fun sumarRestarDiasFecha(fecha:Date, dias:Int):Date{
+
+        val calendar = Calendar.getInstance();
+
+        calendar.setTime(fecha); // Configuramos la fecha que se recibe
+
+
+
+        calendar.add(Calendar.DAY_OF_YEAR, dias);  // numero de días a añadir, o restar en caso de días<0
+
+
+        return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
+
+
+    }
 }
 
 class MainViewModelProvider(private val repository: TasksRepository) : ViewModelProvider.Factory {

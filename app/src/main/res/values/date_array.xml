@@ -3,5 +3,6 @@
     <string-array name="date_format_array">
         <item>@string/Today</item>
         <item>@string/Week</item>
+        <item>@string/Month</item>
     </string-array>
 </resources>
