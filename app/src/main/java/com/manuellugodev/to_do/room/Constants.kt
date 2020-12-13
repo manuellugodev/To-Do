@@ -10,4 +10,5 @@ object Constants {
     const val GET_LIST_TASKS_BY_CATEGORY="SELECT * FROM $NAME_TASK_TABLE WHERE category LIKE :category"
     const val GET_ALL_CATEGORIES="SELECT * FROM $NAME_CATEGORY_TABLE"
 
+
 }

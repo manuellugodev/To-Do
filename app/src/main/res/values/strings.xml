@@ -13,4 +13,7 @@
     <string name="possiButtonAlertDelete">Yes</string>
     <string name="negaButtonAlertDelete">No</string>
     <string name="hintNameCategory">Name Category</string>
+    <string name="successfulRegistration">Task Registered</string>
+    <string name="errorInsertTask">Register Error</string>
+    <string name="errorListTasks">Error List Tasks</string>
 </resources>

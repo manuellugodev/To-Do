@@ -3,6 +3,8 @@ package com.manuellugodev.to_do.room
 import androidx.room.*
 import com.manuellugodev.to_do.room.Constants.GET_LIST_TASKS_BY_CATEGORY
 import com.manuellugodev.to_do.room.Constants.GET_ALL_CATEGORIES
+import com.manuellugodev.to_do.room.model.Category
+import com.manuellugodev.to_do.room.model.Task
 
 @Dao
 interface TaskDao {
@@ -25,5 +27,7 @@ interface TaskDao {
 
     @Update
     fun updateTask(taskItem: Task)
+
+
 
 }

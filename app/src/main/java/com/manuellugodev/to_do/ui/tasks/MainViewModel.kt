@@ -5,8 +5,8 @@ import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.manuellugodev.to_do.data.repositories.TasksRepository
 import com.manuellugodev.to_do.domain.DataResult
-import com.manuellugodev.to_do.room.Category
-import com.manuellugodev.to_do.room.Task
+import com.manuellugodev.to_do.room.model.Category
+import com.manuellugodev.to_do.room.model.Task
 import com.manuellugodev.to_do.utils.FilterDate
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -16,7 +16,6 @@ import java.util.*
 class MainViewModel @ViewModelInject constructor(private val repository: TasksRepository) :
     ViewModel() {
 
-    private val dateCurrent = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
 
     private val _dateFilterStatus = MutableLiveData<FilterDate>()
 
@@ -43,6 +42,7 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
         listCategoryStatus.value = DataResult.Loading()
 
     }
+
 
     fun refreshListTask(category: String) {
         listTaskStatus.value = category
@@ -226,6 +226,7 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
             try {
                 val result = repository.getListCategories()
 
+
                 emit(result)
             } catch (e: Exception) {
 
@@ -245,6 +246,11 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
         );  // numero de días a añadir, o restar en caso de días<0
         return calendar.getTime(); // Devuelve el objeto Date con los nuevos días añadidos
     }
+
+    fun resetLiveData() {
+        _insertTaskStatus.value=null
+    }
+
 }
 
 class MainViewModelProvider(private val repository: TasksRepository) : ViewModelProvider.Factory {

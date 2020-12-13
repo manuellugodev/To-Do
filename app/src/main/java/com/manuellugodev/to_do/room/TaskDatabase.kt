@@ -4,8 +4,10 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.manuellugodev.to_do.room.model.Category
+import com.manuellugodev.to_do.room.model.Task
 
-@Database(entities = arrayOf(Task::class,Category::class),version = 1)
+@Database(entities = arrayOf(Task::class, Category::class),version = 1)
 abstract class TaskDatabase:RoomDatabase() {
 
    abstract fun taskDao():TaskDao

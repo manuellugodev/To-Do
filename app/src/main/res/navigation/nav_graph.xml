@@ -7,7 +7,15 @@
     <fragment
         android:id="@+id/newTaskFragment"
         android:name="com.manuellugodev.to_do.ui.newtask.NewTaskFragment"
-        android:label="NewTaskFragment" />
+        android:label="NewTaskFragment" >
+        <action
+            android:id="@+id/action_newTaskFragment_to_listTaskFragment"
+            app:destination="@id/listTaskFragment"
+            app:enterAnim="@anim/slide_in_left"
+            app:exitAnim="@anim/slide_out_right"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
     <fragment
         android:id="@+id/listTaskFragment"
         android:name="com.manuellugodev.to_do.ui.tasks.ListTaskFragment"
@@ -15,7 +23,11 @@
         tools:layout="@layout/fragment_list_task" >
         <action
             android:id="@+id/action_listTaskFragment_to_newTaskFragment"
-            app:destination="@id/newTaskFragment" />
+            app:destination="@id/newTaskFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_right"
+            app:popExitAnim="@anim/slide_out_left" />
     </fragment>
 
 </navigation>

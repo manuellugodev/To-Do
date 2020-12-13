@@ -6,9 +6,9 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.manuellugodev.to_do.R
-import com.manuellugodev.to_do.room.Category
+import com.manuellugodev.to_do.room.model.Category
 
-class AdapterListCategory(private var listCategory: List<Category>,private val listener:ListenerCategory): RecyclerView.Adapter<AdapterListCategory.ViewHolderCategory>() {
+class AdapterListCategory(private var listCategory: List<Category>, private val listener:ListenerCategory): RecyclerView.Adapter<AdapterListCategory.ViewHolderCategory>() {
 
     fun updateDataAdapter(list: List<Category>){
         listCategory=list
@@ -43,7 +43,7 @@ class AdapterListCategory(private var listCategory: List<Category>,private val l
     }
 
     interface ListenerCategory{
-        fun onClickCategory(selecCategory:Category)
+        fun onClickCategory(selecCategory: Category)
     }
 
 }

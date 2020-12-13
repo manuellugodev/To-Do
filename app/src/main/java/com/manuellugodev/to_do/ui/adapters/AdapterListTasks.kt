@@ -7,9 +7,9 @@ import android.widget.CheckBox
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.manuellugodev.to_do.R
-import com.manuellugodev.to_do.room.Task
+import com.manuellugodev.to_do.room.model.Task
 
-class AdapterListTasks(private var tasks: List<Task>,private val listener:ListenerTask):RecyclerView.Adapter<AdapterListTasks.ViewHolder>() {
+class AdapterListTasks(private var tasks: List<Task>, private val listener:ListenerTask):RecyclerView.Adapter<AdapterListTasks.ViewHolder>() {
 
     fun updateDataAdapter(listTask:List<Task>){
         tasks=listTask

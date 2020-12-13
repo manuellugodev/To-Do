@@ -17,13 +17,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.manuellugodev.to_do.R
 import com.manuellugodev.to_do.domain.DataResult
-import com.manuellugodev.to_do.room.Category
-import com.manuellugodev.to_do.room.Task
+import com.manuellugodev.to_do.room.model.Category
+import com.manuellugodev.to_do.room.model.Task
 import com.manuellugodev.to_do.ui.adapters.AdapterListCategory
 import com.manuellugodev.to_do.ui.adapters.AdapterListTasks
 import com.manuellugodev.to_do.utils.FilterDate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_task.*
+import kotlinx.android.synthetic.main.new_task_fragment.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -137,14 +138,15 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
             when (it) {
 
                 is DataResult.Loading -> {
-                    Toast.makeText(requireContext(), "Loading", Toast.LENGTH_SHORT).show()
+                    showProgress()
                 }
                 is DataResult.Success -> {
-
+                    hideProgress()
                     adapterRv.updateDataAdapter(it.data)
                 }
 
                 is DataResult.Failure -> {
+                    hideProgress()
                     adapterRv.updateDataAdapter(listOf())
                     Log.e("Error", it.exception.message.toString())
                 }
@@ -158,18 +160,18 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
             when (it) {
 
                 is DataResult.Loading -> {
-                    Toast.makeText(requireContext(), "Actualizando....", Toast.LENGTH_SHORT).show()
+                    showProgress()
+
                 }
                 is DataResult.Success -> {
-                    Toast.makeText(requireContext(), "Actualizado con exito", Toast.LENGTH_LONG)
-                        .show()
+                  hideProgress()
+                    Log.i("Task","Task UPDATED")
                 }
                 is DataResult.Failure -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Ocurrio un error Actualizando..",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    hideProgress()
+
+                    Log.e("UPDATE","Error Update Task")
+
                 }
             }
         })
@@ -177,12 +179,18 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
         viewModel.fetchListCategory().observe(viewLifecycleOwner, Observer {
             when(it){
 
-                is DataResult.Loading ->{}
+                is DataResult.Loading ->{
+                    showProgress()
+                }
 
                 is DataResult.Success -> {
+                    hideProgress()
                     adapterRvCategory.updateDataAdapter(it.data)
                 }
-                is DataResult.Failure->{}
+                is DataResult.Failure->{
+                    showMessage(getString(R.string.errorListTasks))
+                    Log.e("Categories","Error Cargando Categorias")
+                }
             }
         })
     }
@@ -216,6 +224,18 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
         alertDialog.setNegativeButton(getString(R.string.negaButtonAlertDelete),null)
 
         alertDialog.show()
+    }
+
+    private fun showProgress() {
+        progressListTasks.visibility = View.VISIBLE
+    }
+
+    private fun hideProgress() {
+        progressListTasks.visibility = View.GONE
+    }
+
+    private fun showMessage(message: String) {
+        Toast.makeText(requireContext(), message, Toast.LENGTH_LONG).show()
     }
 
     companion object {

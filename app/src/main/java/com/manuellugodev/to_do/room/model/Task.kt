@@ -1,8 +1,9 @@
-package com.manuellugodev.to_do.room
+package com.manuellugodev.to_do.room.model
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.manuellugodev.to_do.room.Constants
 
 @Entity(tableName = Constants.NAME_TASK_TABLE)
 data class Task(
