@@ -1,22 +1,22 @@
 <resources>
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Customize your theme here. -->
 
         <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryLight</item>
+        <item name="colorPrimaryDark">@color/colorSecondaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
 
     <style name="textTitle">
-        <item name="android:textColor">@color/black_text</item>
+        <item name="android:textColor">@color/white_text</item>
         <item name="android:textStyle">italic</item>
         <item name="android:textSize">@dimen/text_tiles</item>
     </style>
 
     <style name="textDesc">
-        <item name="android:textColor">@color/black_text</item>
+        <item name="android:textColor">@color/white_text</item>
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">@dimen/text_subtitles</item>
     </style>
@@ -27,7 +27,6 @@
 
     </style>
 
-    <color name="black_text">#000000</color>
 
-    <color name="color_check_button">#0FD118</color>
+
 </resources>

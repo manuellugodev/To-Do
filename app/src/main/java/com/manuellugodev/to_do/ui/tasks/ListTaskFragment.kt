@@ -24,7 +24,6 @@ import com.manuellugodev.to_do.ui.adapters.AdapterListTasks
 import com.manuellugodev.to_do.utils.FilterDate
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.android.synthetic.main.fragment_list_task.*
-import kotlinx.android.synthetic.main.new_task_fragment.*
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -79,7 +78,7 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
         rvCategories.layoutManager= LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
         rvCategories.adapter=adapterRvCategory
 
-        bAddTaskFragment.setOnClickListener { findNavController().navigate(R.id.action_listTaskFragment_to_newTaskFragment) }
+
 
         setupObservers()
 

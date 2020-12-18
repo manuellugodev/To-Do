@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context="com.manuellugodev.to_do.ui.newtask.NewTaskFragment">
+    tools:context="com.manuellugodev.to_do.ui.newtask.NewTaskFragment"
+    tools:background="@drawable/background_main">
 
     <ProgressBar
         android:id="@+id/progressInsertTask"
@@ -86,7 +87,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <EditText
                     android:id="@+id/editAddCategory"
@@ -104,8 +105,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="7"
-                    android:background="@color/colorCheck"
-                    android:src="?android:attr/textCheckMark" />
+                    android:background="@drawable/ic_baseline_done_24" />
 
             </LinearLayout>
 

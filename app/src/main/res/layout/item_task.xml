@@ -8,6 +8,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/backround_item_task"
+        app:cardBackgroundColor="#FFFFFF"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -24,15 +26,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:button="@drawable/custom_checkbox"
                 android:layout_marginLeft="5dp"
-                />
+                android:button="@drawable/custom_checkbox" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginLeft="10dp"
+                android:orientation="vertical"
                 android:padding="5dp">
 
                 <TextView
@@ -40,6 +41,9 @@
                     style="@style/textTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:fontFamily="@font/productsans"
+                    android:textColor="@color/primaryTextColor"
+                    android:textStyle="bold"
                     tools:text="Feature New Task in app" />
 
                 <TextView
@@ -48,7 +52,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
+                    android:fontFamily="@font/productsans"
                     android:lines="1"
+                    android:textColor="@color/primaryTextColor"
                     tools:text="Start with implementation of feature new task in app Android" />
 
                 <TextView
@@ -56,7 +62,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    tools:text="31/12/2020"/>
+                    android:fontFamily="@font/productsans"
+                    android:textColor="@color/primaryTextColor"
+                    tools:text="31/12/2020" />
             </LinearLayout>
         </LinearLayout>
 

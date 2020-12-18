@@ -8,8 +8,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/cardCategory"
         android:layout_width="150dp"
-        android:layout_height="180dp"
-        app:cardBackgroundColor="@color/colorPrimaryCategory"
+        android:layout_height="wrap_content"
         app:cardCornerRadius="5dp"
         app:cardElevation="10dp"
         app:cardUseCompatPadding="true"
@@ -19,6 +18,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/background_item_category"
             android:orientation="vertical"
             android:paddingLeft="5dp">
 
@@ -30,24 +30,27 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/backroung_image_category"
+                android:contentDescription="TODO"
                 android:padding="5dp"
-                app:srcCompat="@drawable/ic_dashboard_black_24dp"
-                android:contentDescription="TODO" />
+                app:srcCompat="@drawable/ic_dashboard_black_24dp" />
 
             <TextView
                 android:id="@+id/txtNameCategory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
                 android:maxLines="1"
-                android:textColor="@color/black_text"
+                android:textColor="@color/white_text"
                 android:textSize="@dimen/text_titles_category"
+                android:fontFamily="@font/productsans"
                 tools:text="Universirty" />
 
             <TextView
                 android:id="@+id/numTasksCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 tools:text="32 Tasks" />
 
         </LinearLayout>
