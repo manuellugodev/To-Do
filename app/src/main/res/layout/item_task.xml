@@ -8,7 +8,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/backround_item_task"
+        android:background="@drawable/background_item_task"
         app:cardBackgroundColor="#FFFFFF"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true"

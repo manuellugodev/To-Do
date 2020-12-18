@@ -72,7 +72,6 @@
             android:id="@+id/toolbarLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background_toolbar"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
