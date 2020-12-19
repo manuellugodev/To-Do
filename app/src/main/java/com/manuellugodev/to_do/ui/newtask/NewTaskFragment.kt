@@ -12,19 +12,20 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 
 import com.manuellugodev.to_do.R
+import com.manuellugodev.to_do.databinding.NewTaskFragmentBinding
 import com.manuellugodev.to_do.domain.DataResult
 import com.manuellugodev.to_do.room.model.Category
 import com.manuellugodev.to_do.room.model.Task
 import com.manuellugodev.to_do.ui.tasks.MainViewModel
 import com.manuellugodev.to_do.utils.DateInputMask
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.new_task_fragment.*
 import java.text.SimpleDateFormat
 import java.util.*
 
 @AndroidEntryPoint
 class NewTaskFragment : Fragment() {
 
+    private lateinit var binding: NewTaskFragmentBinding
     private lateinit var adapterSpinner: ArrayAdapter<String>
 
     private val viewModel: MainViewModel by activityViewModels<MainViewModel>()
@@ -36,8 +37,9 @@ class NewTaskFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
-        return inflater.inflate(R.layout.new_task_fragment, container, false)
+        binding=NewTaskFragmentBinding.inflate(inflater,container,false)
+        val view=binding.root
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -77,13 +79,13 @@ class NewTaskFragment : Fragment() {
 
 
     private fun setListenerButtons() {
-        bSave.setOnClickListener {
-            val categoryTask: String = spiCategory.selectedItem.toString()
-            val dateTask = dateNewTask.text.toString()
+        binding.bSave.setOnClickListener {
+            val categoryTask: String = binding.spiCategory.selectedItem.toString()
+            val dateTask = binding.dateNewTask.text.toString()
             val task = Task(
                 title =
-                titleNewTask.text.toString(),
-                body = descNewTask.text.toString(),
+                binding.titleNewTask.text.toString(),
+                body = binding.descNewTask.text.toString(),
                 categoryTask = categoryTask,
                 date = dateTask
             )
@@ -91,14 +93,14 @@ class NewTaskFragment : Fragment() {
 
         }
 
-        bAddCategory.setOnClickListener {
-            layoutAddCategory.visibility = View.VISIBLE
+        binding.bAddCategory.setOnClickListener {
+            binding.layoutAddCategory.visibility = View.VISIBLE
         }
 
-        bAcceptCategory.setOnClickListener {
-            layoutAddCategory.visibility = View.GONE
-            val textAddCategory = editAddCategory.text.toString()
-            editAddCategory.setText("")
+        binding.bAcceptCategory.setOnClickListener {
+            binding.layoutAddCategory.visibility = View.GONE
+            val textAddCategory = binding.editAddCategory.text.toString()
+            binding.editAddCategory.setText("")
 
             if (checkValidAddCategory(textAddCategory)) {
                 insertNewCategory(textAddCategory)
@@ -111,8 +113,8 @@ class NewTaskFragment : Fragment() {
 
     private fun setDateDefault() {
         val dateCurrent = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())
-        dateNewTask.setText(dateCurrent.toString())
-        DateInputMask(dateNewTask).listen()
+        binding.dateNewTask.setText(dateCurrent.toString())
+        DateInputMask(binding.dateNewTask).listen()
     }
 
     private fun insertNewCategory(textAddCategory: String) {
@@ -156,7 +158,7 @@ class NewTaskFragment : Fragment() {
 
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-        spiCategory.adapter = adapterSpinner
+        binding.spiCategory.adapter = adapterSpinner
 
     }
 
@@ -166,11 +168,11 @@ class NewTaskFragment : Fragment() {
 
 
     private fun showProgress() {
-        progressInsertTask.visibility = View.VISIBLE
+        binding.progressInsertTask.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
-        progressInsertTask.visibility = View.GONE
+        binding.progressInsertTask.visibility = View.GONE
     }
 
     private fun showMessage(message: String) {

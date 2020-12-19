@@ -13,9 +13,9 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.manuellugodev.to_do.R
+import com.manuellugodev.to_do.databinding.FragmentListTaskBinding
 import com.manuellugodev.to_do.domain.DataResult
 import com.manuellugodev.to_do.room.model.Category
 import com.manuellugodev.to_do.room.model.Task
@@ -23,7 +23,7 @@ import com.manuellugodev.to_do.ui.adapters.AdapterListCategory
 import com.manuellugodev.to_do.ui.adapters.AdapterListTasks
 import com.manuellugodev.to_do.utils.FilterDate
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.android.synthetic.main.fragment_list_task.*
+
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -40,6 +40,9 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
+
+    private lateinit var binding:FragmentListTaskBinding
+
 
     private val adapterRv=AdapterListTasks(listOf(),this)
     private val adapterRvCategory=AdapterListCategory(listOf(),this)
@@ -62,21 +65,24 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
     ): View? {
 
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_list_task, container, false)
+        binding= FragmentListTaskBinding.inflate(inflater,container,false)
+        val view=binding.root
+        return view
 
 
     }
 
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        rvListTasks.layoutManager =
+        binding.rvListTasks.layoutManager =
             LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
 
-        rvListTasks.adapter=adapterRv
+        binding.rvListTasks.adapter=adapterRv
 
-        rvCategories.layoutManager= LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
-        rvCategories.adapter=adapterRvCategory
+        binding.rvCategories.layoutManager= LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+        binding.rvCategories.adapter=adapterRvCategory
 
 
 
@@ -100,19 +106,19 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
 
-             spinnerDate.adapter=adapter
+             binding.spinnerDate.adapter=adapter
          }
 
 
 
-       spinnerDate.onItemSelectedListener=object :AdapterView.OnItemSelectedListener{
+       binding.spinnerDate.onItemSelectedListener=object :AdapterView.OnItemSelectedListener{
            override fun onItemSelected(
                parent: AdapterView<*>?,
                view: View?,
                position: Int,
                id: Long
            ) {
-              val selectDateSpinner= spinnerDate.getItemAtPosition(position).toString()
+              val selectDateSpinner= binding.spinnerDate.getItemAtPosition(position).toString()
 
 
                if(selectDateSpinner.equals(FilterDate.TODAY.name,true)){
@@ -226,11 +232,11 @@ class ListTaskFragment : Fragment(), AdapterListTasks.ListenerTask ,AdapterListC
     }
 
     private fun showProgress() {
-        progressListTasks.visibility = View.VISIBLE
+        binding.progressListTasks.visibility = View.VISIBLE
     }
 
     private fun hideProgress() {
-        progressListTasks.visibility = View.GONE
+        binding.progressListTasks.visibility = View.GONE
     }
 
     private fun showMessage(message: String) {
