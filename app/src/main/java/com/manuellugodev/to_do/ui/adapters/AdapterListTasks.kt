@@ -9,62 +9,63 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manuellugodev.to_do.R
 import com.manuellugodev.to_do.room.model.Task
 
-class AdapterListTasks(private var tasks: List<Task>, private val listener:ListenerTask):RecyclerView.Adapter<AdapterListTasks.ViewHolder>() {
+class AdapterListTasks(private var tasks: List<Task>, private val listener: ListenerTask) :
+    RecyclerView.Adapter<AdapterListTasks.ViewHolder>() {
 
-    fun updateDataAdapter(listTask:List<Task>){
-        tasks=listTask
+    fun updateDataAdapter(listTask: List<Task>) {
+        tasks = listTask
         notifyDataSetChanged()
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AdapterListTasks.ViewHolder {
 
-        val view=LayoutInflater.from(parent.context).inflate(R.layout.item_task,parent,false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_task, parent, false)
 
         return ViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: AdapterListTasks.ViewHolder, position: Int) {
 
-        holder.txtTitle.text=tasks[position].title
-        holder.txtDescription.text=tasks[position].body
-        holder.txtDate.text=tasks[position].date
+        val task = tasks[position]
 
-        holder.checkTask.isChecked = tasks[position].realized
-
-        holder.checkTask.setOnClickListener {
-
-            val taskUpdate=tasks[position]
-            val checked=holder.checkTask.isChecked
-
-            taskUpdate.realized=checked
-
-            listener.onUpdateTaskChecked(taskUpdate)
-        }
-
-        holder.itemView.setOnLongClickListener {
-
-            listener.onDeleteTask(tasks[position])
-
-            
-            true
-        }
+        holder.bind(task)
     }
 
     override fun getItemCount(): Int = tasks.size
 
-    class ViewHolder(view: View):RecyclerView.ViewHolder(view){
-        val txtTitle:TextView
-        val txtDescription:TextView
-        val txtDate:TextView
-        val checkTask:CheckBox
-        init {
-            txtTitle=view.findViewById(R.id.titleTask)
-            txtDescription=view.findViewById(R.id.descTask)
-            txtDate=view.findViewById(R.id.textDateTask)
-            checkTask=view.findViewById(R.id.checkTaskRealized)
+    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+
+        private val txtTitle: TextView = view.findViewById(R.id.titleTask)
+        private val txtDescription: TextView = view.findViewById(R.id.descTask)
+        private val txtDate: TextView = view.findViewById(R.id.textDateTask)
+        private val checkTask: CheckBox = view.findViewById(R.id.checkTaskRealized)
+
+        fun bind(task: Task) {
+
+            txtTitle.text = task.title
+            txtDescription.text = task.body
+            txtDate.text = task.date
+
+            checkTask.isChecked = task.realized
+
+            checkTask.setOnClickListener {
+
+                task.realized = checkTask.isChecked
+
+                listener.onUpdateTaskChecked(task)
+            }
+
+            itemView.setOnLongClickListener {
+
+                listener.onDeleteTask(task)
+
+
+                true
+            }
         }
     }
 
-    interface ListenerTask{
+    interface ListenerTask {
         fun onUpdateTaskChecked(task: Task)
         fun onDeleteTask(task: Task)
     }

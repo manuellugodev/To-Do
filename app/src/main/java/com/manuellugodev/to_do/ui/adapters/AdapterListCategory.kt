@@ -8,41 +8,46 @@ import androidx.recyclerview.widget.RecyclerView
 import com.manuellugodev.to_do.R
 import com.manuellugodev.to_do.room.model.Category
 
-class AdapterListCategory(private var listCategory: List<Category>, private val listener:ListenerCategory): RecyclerView.Adapter<AdapterListCategory.ViewHolderCategory>() {
+class AdapterListCategory(
+    private var listCategory: List<Category>,
+    private val listener: ListenerCategory
+) : RecyclerView.Adapter<AdapterListCategory.ViewHolderCategory>() {
 
-    fun updateDataAdapter(list: List<Category>){
-        listCategory=list
+    fun updateDataAdapter(list: List<Category>) {
+        listCategory = list
         notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderCategory {
-        val view=LayoutInflater.from(parent.context).inflate(R.layout.item_category,parent,false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_category, parent, false)
 
         return ViewHolderCategory(view)
     }
 
     override fun onBindViewHolder(holderCategory: ViewHolderCategory, position: Int) {
+        val category = listCategory[position]
 
-        holderCategory.txtNumTasks.text="10 Tasks"
-        holderCategory.txtTitleCategory.text=listCategory[position].nameCategory
-        holderCategory.itemView.setOnClickListener { listener.onClickCategory(listCategory[position]) }
+        holderCategory.bind(category)
     }
 
     override fun getItemCount(): Int = listCategory.size
 
-    class ViewHolderCategory(itemView:View):RecyclerView.ViewHolder(itemView) {
+    inner class ViewHolderCategory(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        val txtTitleCategory:TextView
-        val txtNumTasks:TextView
-        init {
+        private val txtTitleCategory: TextView = itemView.findViewById(R.id.txtNameCategory)
 
-            txtTitleCategory=itemView.findViewById(R.id.txtNameCategory)
-            txtNumTasks=itemView.findViewById(R.id.numTasksCategory)
+
+        fun bind(category: Category) {
+
+            txtTitleCategory.text=category.nameCategory
+            itemView.setOnClickListener{listener.onClickCategory(category)}
+
         }
 
     }
 
-    interface ListenerCategory{
+    interface ListenerCategory {
         fun onClickCategory(selecCategory: Category)
     }
 
