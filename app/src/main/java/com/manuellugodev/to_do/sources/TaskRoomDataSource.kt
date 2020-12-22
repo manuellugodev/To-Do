@@ -3,8 +3,8 @@ package com.manuellugodev.to_do.sources
 import com.manuellugodev.to_do.data.sources.LocalTaskDataSource
 import com.manuellugodev.to_do.room.model.Task
 import com.manuellugodev.to_do.room.TaskDatabase
-import com.manuellugodev.to_do.domain.DataResult
-import com.manuellugodev.to_do.domain.safeApiCall
+import com.manuellugodev.to_do.utils.DataResult
+import com.manuellugodev.to_do.utils.safeApiCall
 import com.manuellugodev.to_do.room.model.Category
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext

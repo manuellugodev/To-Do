@@ -1,4 +1,4 @@
-package com.manuellugodev.to_do.domain
+package com.manuellugodev.to_do.utils
 
 import android.util.Log
 import java.io.IOException

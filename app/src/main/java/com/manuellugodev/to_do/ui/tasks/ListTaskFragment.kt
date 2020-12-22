@@ -16,9 +16,10 @@ import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.manuellugodev.to_do.R
 import com.manuellugodev.to_do.databinding.FragmentListTaskBinding
-import com.manuellugodev.to_do.domain.DataResult
+import com.manuellugodev.to_do.utils.DataResult
 import com.manuellugodev.to_do.room.model.Category
 import com.manuellugodev.to_do.room.model.Task
+import com.manuellugodev.to_do.ui.MainViewModel
 import com.manuellugodev.to_do.ui.adapters.AdapterListCategory
 import com.manuellugodev.to_do.ui.adapters.AdapterListTasks
 import com.manuellugodev.to_do.utils.FilterDate

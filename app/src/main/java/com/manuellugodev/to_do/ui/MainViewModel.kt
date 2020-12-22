@@ -1,10 +1,10 @@
-package com.manuellugodev.to_do.ui.tasks
+package com.manuellugodev.to_do.ui
 
 import android.util.Log
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.*
 import com.manuellugodev.to_do.data.repositories.TasksRepository
-import com.manuellugodev.to_do.domain.DataResult
+import com.manuellugodev.to_do.utils.DataResult
 import com.manuellugodev.to_do.room.model.Category
 import com.manuellugodev.to_do.room.model.Task
 import com.manuellugodev.to_do.utils.FilterDate
@@ -17,14 +17,16 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
     ViewModel() {
 
 
+
+
     private val _dateFilterStatus = MutableLiveData<FilterDate>()
 
     private val listTaskStatus = MutableLiveData<String>()
 
-    private val listCategoryStatus = MutableLiveData<DataResult<Boolean>>()
+    private val listCategoryStatus = MutableLiveData<DataResult<List<Category>>>()
 
     private val _insertCategoryStatus = MutableLiveData<DataResult<Boolean>>()
-    val insertCateforyStatus: LiveData<DataResult<Boolean>> get() = _insertCategoryStatus
+    val insertCategoryStatus: LiveData<DataResult<Boolean>> get() = _insertCategoryStatus
 
     private val _deleteTaskStatus = MutableLiveData<DataResult<Boolean>>()
     val deleteTaskStatus: LiveData<DataResult<Boolean>> get() = _deleteTaskStatus
@@ -37,8 +39,6 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
 
     init {
         _dateFilterStatus.value = FilterDate.TODAY
-        insertCategory(Category(cateId = 1, nameCategory = "GENERAL"))
-        listTaskStatus.value = "GENERAL"
         listCategoryStatus.value = DataResult.Loading()
 
     }
@@ -56,6 +56,7 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
     fun refreshListCategory() {
         listCategoryStatus.value = DataResult.Loading()
     }
+
 
     fun updateTask(task: Task) {
 
@@ -221,6 +222,7 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
 
     fun fetchListCategory() = listCategoryStatus.switchMap {
         liveData {
+
             emit(DataResult.Loading())
 
             try {
@@ -253,9 +255,5 @@ class MainViewModel @ViewModelInject constructor(private val repository: TasksRe
 
 }
 
-class MainViewModelProvider(private val repository: TasksRepository) : ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(TasksRepository::class.java).newInstance(repository)
-    }
-}
+
 

@@ -13,10 +13,10 @@ import androidx.navigation.fragment.findNavController
 
 import com.manuellugodev.to_do.R
 import com.manuellugodev.to_do.databinding.NewTaskFragmentBinding
-import com.manuellugodev.to_do.domain.DataResult
+import com.manuellugodev.to_do.utils.DataResult
 import com.manuellugodev.to_do.room.model.Category
 import com.manuellugodev.to_do.room.model.Task
-import com.manuellugodev.to_do.ui.tasks.MainViewModel
+import com.manuellugodev.to_do.ui.MainViewModel
 import com.manuellugodev.to_do.utils.DateInputMask
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.SimpleDateFormat
@@ -74,6 +74,25 @@ class NewTaskFragment : Fragment() {
                 }
             }
 
+        })
+
+        viewModel.insertCategoryStatus.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
+
+            when (it) {
+                is DataResult.Loading -> {
+                    showProgress()
+                }
+                is DataResult.Success -> {
+                    hideProgress()
+                    showMessage(getString(R.string.successfulCategoryRegistration))
+
+                }
+                is DataResult.Failure -> {
+                    hideProgress()
+                    showMessage(getString(R.string.errorInsertTask))
+
+                }
+            }
         })
     }
 
