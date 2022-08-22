@@ -99,7 +99,15 @@ class NewTaskFragment : Fragment() {
 
     private fun setListenerButtons() {
         binding.bSave.setOnClickListener {
+
+            if(isCategoryValid().not()){
+                showError("Necesita Elegir una categoria")
+                return@setOnClickListener
+            }
+
             val categoryTask: String = binding.spiCategory.selectedItem.toString()
+
+
             val dateTask = binding.dateNewTask.text.toString()
             val task = Task(
                 title =
@@ -128,7 +136,15 @@ class NewTaskFragment : Fragment() {
         }
 
     }
+    private fun isCategoryValid(): Boolean {
 
+        return binding.spiCategory.selectedItem!=null
+
+    }
+
+    private fun showError(msg: String){
+        Toast.makeText(requireContext(),msg,Toast.LENGTH_LONG).show()
+    }
 
     private fun setDateDefault() {
         val dateCurrent = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(Date())

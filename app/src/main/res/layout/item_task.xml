@@ -41,7 +41,6 @@
                     style="@style/textTitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/productsans"
                     android:textColor="@color/primaryTextColor"
                     android:textStyle="bold"
                     tools:text="Feature New Task in app" />
@@ -52,7 +51,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:fontFamily="@font/productsans"
                     android:lines="1"
                     android:textColor="@color/primaryTextColor"
                     tools:text="Start with implementation of feature new task in app Android" />
@@ -62,7 +60,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
-                    android:fontFamily="@font/productsans"
                     android:textColor="@color/primaryTextColor"
                     tools:text="31/12/2020" />
             </LinearLayout>
